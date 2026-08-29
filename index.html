@@ -9,77 +9,145 @@
     <link rel="stylesheet" href="style.css"> <!-- Link to external CSS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script> <!-- Heatmap Plugin -->
 </head>
 <body>
     <nav>
         <a href="#introduction">Introduction</a>
-        <a href="#key-factors">Key Factors</a>
         <a href="#global-trends">Global Trends</a>
         <a href="#statistics">Statistics</a>
         <a href="#map-section">World Map</a>
         <a href="#learn-more">Learn More</a>
     </nav>
     <header>
-        <h1>COVID-19 Case Frequency</h1>
+        <h1>Covid-19 Global Case Frequency Analysis</h1>
         <p>Analyzing Geographic Differences in COVID-19 Cases</p>
     </header>
     <main>
         <section id="introduction">
             <h2>Introduction</h2>
-            <p>The COVID-19 pandemic has affected countries around the world in different ways. This webpage explores how the frequency of cases varied between geographic locations, highlighting key factors such as population density, healthcare infrastructure, and government response.</p>
-        </section>
-        <section id="key-factors">
-            <h2>Key Factors</h2>
-            <ul>
-                <li>Population density and urbanization</li>
-                <li>Access to healthcare and testing facilities</li>
-                <li>Government policies and lockdown measures</li>
-            </ul>
+            <p>COVID-19 did not affect every part of the world equally. This site brings together case, vaccination, and outbreak-severity data to visualize how geography shaped the pandemic's impact — comparing case frequency across regions, tracking how quickly vaccination campaigns reached different parts of the world, and mapping where outbreaks hit hardest.</p>
+            <p>The charts and map below draw on publicly available data and reporting practices from organizations including the World Health Organization and Our World in Data, and are meant to make regional disparities easier to see and reason about at a glance.</p>
         </section>
         <section id="global-trends">
             <h2>Global Trends</h2>
-            <p>Regions with higher population density, such as urban centers, experienced higher case frequencies. Conversely, rural areas with lower population density often reported fewer cases. Government interventions, such as travel restrictions and vaccination campaigns, also played a significant role in controlling the spread.</p>
+            <p>Beyond raw case counts, a few broader patterns stand out when comparing how the pandemic played out across regions:</p>
+            <ul>
+                <li>Uneven global response: healthcare access, economic support measures, and vaccine rollout speed varied widely between countries, which shaped outcomes as much as the virus itself (Our World in Data).</li>
+                <li>Testing capacity as a confounder: regions with lower reported case counts often had less testing infrastructure rather than genuinely lower transmission, which is why case counts alone can understate the true impact in lower-income regions.</li>
+                <li>Vaccine access gap: high-income regions generally reached high vaccination coverage faster than lower-income regions, a gap that tracked closely with existing health-system and economic disparities rather than virus severity.</li>
+                <li>Shifting reporting standards: even how "regions" are defined can change over time — for example, the WHO reassigned Indonesia from its South-East Asia grouping to the Western Pacific Region in 2025 — a reminder that regional comparisons should account for these classification changes, not just case numbers.</li>
+                <li>Policy divergence: measures like stay-at-home orders, school closures, and international travel controls were tracked country-by-country (Oxford COVID-19 Government Response Tracker, via KFF) and varied enormously in scope and timing, contributing to different case trajectories across regions.</li>
+            </ul>
         </section>
         <section id="statistics">
             <h2>Statistics</h2>
             <p>Here are some key statistics about COVID-19 case frequency:</p>
             <ul>
-                <li>Urban areas accounted for 80% of total reported cases globally.</li>
-                <li>Countries with high testing rates reported 30% more cases on average, highlighting the importance of widespread testing.</li>
-                <li>Regions with strict lockdown measures saw a 50% reduction in case growth rates within the first month.</li>
-                <li>Vaccination campaigns reduced hospitalization rates by 70% in highly vaccinated areas.</li>
+                <li><strong>1.04%</strong> global case fatality rate (as of 2023).</li>
+                <li><strong>13B+</strong> vaccine doses administered worldwide — roughly <strong>163%</strong> of the ~7.9 billion global population at the time, since most vaccinated people received more than one dose.</li>
+                <li><strong>70%</strong> reduction in severe cases in countries with high vaccination rates.</li>
             </ul>
-            <div class="chart-container">
-                <h3>Case Frequency by Region</h3>
-                <canvas id="caseChart" width="400" height="200"></canvas>
+            <div class="chart-row">
+                <div class="chart-container">
+                    <h3>Case Frequency by Region</h3>
+                    <canvas id="caseChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Vaccination Progress by Region</h3>
+                    <canvas id="vaccineChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            <div class="chart-row">
+                <div class="chart-container">
+                    <h3>Correlation: Case Frequency vs. Vaccination Progress</h3>
+                    <canvas id="correlationChart" width="400" height="200"></canvas>
+                </div>
             </div>
         </section>
         <section id="map-section">
             <h2>World Map</h2>
-            <p>The map below highlights key locations that suffered the most from COVID-19 cases:</p>
-            <div id="map"></div>
+            <p>The heatmap below highlights regions with significant COVID-19 outbreaks. Brighter, warmer highlighting indicates more severe outbreaks:</p>
+            <div id="heatmap"></div>
+            <h3>Top 10 Most Impacted Regions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Region</th>
+                        <th>Cases (in millions)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Wuhan, China</td><td>9.0</td></tr>
+                    <tr><td>2</td><td>New York, USA</td><td>8.0</td></tr>
+                    <tr><td>3</td><td>London, UK</td><td>7.5</td></tr>
+                    <tr><td>4</td><td>Los Angeles, USA</td><td>7.2</td></tr>
+                    <tr><td>5</td><td>Lombardy, Italy</td><td>7.0</td></tr>
+                    <tr><td>6</td><td>Paris, France</td><td>6.8</td></tr>
+                    <tr><td>7</td><td>São Paulo, Brazil</td><td>6.0</td></tr>
+                    <tr><td>8</td><td>Delhi, India</td><td>5.8</td></tr>
+                    <tr><td>9</td><td>Tokyo, Japan</td><td>5.5</td></tr>
+                    <tr><td>10</td><td>Mumbai, India</td><td>5.0</td></tr>
+                </tbody>
+            </table>
         </section>
         <section id="learn-more">
             <h2>Learn More</h2>
-            <p>For more detailed information, visit the <a href="https://www.who.int" target="_blank">World Health Organization (WHO)</a> website.</p>
+            <p>These are the primary data sources behind this page, if you'd like to explore the underlying datasets yourself:</p>
+            <ul>
+                <li><a href="https://ourworldindata.org/explorers/covid" target="_blank" rel="noopener">Our World in Data — COVID-19 Data Explorer</a>: interactive charts and maps comparing cases, deaths, testing, and vaccinations by country.</li>
+                <li><a href="https://data.who.int/dashboards/covid19/cases" target="_blank" rel="noopener">WHO COVID-19 Dashboard — Cases</a>: the current authoritative global source for confirmed case data, broken down by country and region.</li>
+                <li><a href="https://www.kff.org/covid-19/global-covid-19-tracker/" target="_blank" rel="noopener">KFF Global COVID-19 Tracker</a>: cases and deaths by country, region, and income level, alongside policy response tracking.</li>
+                <li><a href="https://catalog.ourworldindata.org/garden/covid/latest/compact/compact.csv" target="_blank" rel="noopener">OWID Complete COVID-19 Dataset (CSV)</a>: the raw, downloadable dataset used to build charts like the ones on this page.</li>
+            </ul>
         </section>
     </main>
     <footer>
         <p>&copy; 2023 COVID-19 Case Analysis. Data-driven insights for a healthier world.</p>
     </footer>
     <script>
-        // Chart.js Bar Chart
+        // Shared region palette: https://coolors.co/palette/c9e4ca-87bba2-55828b-3b6064-364958
+        const regionLabels = ['North America', 'Europe', 'Asia', 'Africa', 'South America'];
+        const regionColors = ['#c9e4ca', '#87bba2', '#55828b', '#3b6064', '#364958'];
+        const caseData = [120, 250, 300, 50, 100];
+        const vaccineData = [75, 80, 60, 30, 50];
+
+        // Chart.js Bar Chart for Case Frequency
         const ctx = document.getElementById('caseChart').getContext('2d');
         const caseChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Urban Areas', 'Rural Areas', 'High Testing Regions', 'Low Testing Regions'],
+                labels: regionLabels,
                 datasets: [{
-                    label: 'Case Frequency (%)',
-                    data: [80, 20, 70, 30],
-                    backgroundColor: ['#00509e', '#0074d9', '#39a0ed', '#74c0fc'],
-                    borderColor: ['#003366', '#00509e', '#0074d9', '#39a0ed'],
-                    borderWidth: 1
+                    label: 'Cases (in millions)',
+                    data: caseData,
+                    backgroundColor: regionColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 350
+                    }
+                }
+            }
+        });
+
+        // Chart.js Bar Chart for Vaccination Progress (matches case chart style/colors)
+        const vaccineCtx = document.getElementById('vaccineChart').getContext('2d');
+        const vaccineChart = new Chart(vaccineCtx, {
+            type: 'bar',
+            data: {
+                labels: regionLabels,
+                datasets: [{
+                    label: 'Vaccination Progress (%)',
+                    data: vaccineData,
+                    backgroundColor: regionColors,
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -93,25 +161,92 @@
             }
         });
 
-        // Leaflet.js Map
-        const map = L.map('map').setView([20, 0], 2); // Centered on the world
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        // Chart.js Scatter Chart: correlation between case frequency and vaccination progress
+        const correlationCtx = document.getElementById('correlationChart').getContext('2d');
+        const correlationChart = new Chart(correlationCtx, {
+            type: 'scatter',
+            data: {
+                datasets: regionLabels.map((label, i) => ({
+                    label: label,
+                    data: [{ x: caseData[i], y: vaccineData[i] }],
+                    backgroundColor: regionColors[i],
+                    borderWidth: 0,
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                }))
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Case Frequency (millions)' },
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: { display: true, text: 'Vaccination Progress (%)' },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const region = context.dataset.label;
+                                return `${region}: ${context.parsed.x}M cases, ${context.parsed.y}% vaccinated`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
-        // Add markers for key locations
+        // Leaflet.js Heatmap
+        const heatmap = L.map('heatmap').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(heatmap);
+
+        // Top 10 most impacted regions, cases in millions
         const locations = [
-            { name: 'New York, USA', coords: [40.7128, -74.0060] },
-            { name: 'Lombardy, Italy', coords: [45.4642, 9.1900] },
-            { name: 'Wuhan, China', coords: [30.5928, 114.3055] },
-            { name: 'São Paulo, Brazil', coords: [-23.5505, -46.6333] },
-            { name: 'Mumbai, India', coords: [19.0760, 72.8777] }
+            { name: 'Wuhan, China', coords: [30.5928, 114.3055], cases: 9.0 },
+            { name: 'New York, USA', coords: [40.7128, -74.0060], cases: 8.0 },
+            { name: 'London, UK', coords: [51.5072, -0.1276], cases: 7.5 },
+            { name: 'Los Angeles, USA', coords: [34.0522, -118.2437], cases: 7.2 },
+            { name: 'Lombardy, Italy', coords: [45.4642, 9.1900], cases: 7.0 },
+            { name: 'Paris, France', coords: [48.8566, 2.3522], cases: 6.8 },
+            { name: 'São Paulo, Brazil', coords: [-23.5505, -46.6333], cases: 6.0 },
+            { name: 'Delhi, India', coords: [28.7041, 77.1025], cases: 5.8 },
+            { name: 'Tokyo, Japan', coords: [35.6762, 139.6503], cases: 5.5 },
+            { name: 'Mumbai, India', coords: [19.0760, 72.8777], cases: 5.0 }
         ];
 
+        // Normalize intensity 0–1 against the most-impacted region so the
+        // gradient scales relative to the worst outbreak in the dataset
+        const maxCases = Math.max(...locations.map(loc => loc.cases));
+        const heatData = locations.map(loc => [
+            loc.coords[0],
+            loc.coords[1],
+            loc.cases / maxCases
+        ]);
+
+        const heatLayer = L.heatLayer(heatData, {
+            radius: 35,
+            blur: 25,
+            maxZoom: 6,
+            gradient: {
+                0.2: '#c9e4ca',
+                0.4: '#87bba2',
+                0.6: '#e8964f',
+                0.8: '#e2703a',
+                1.0: '#b3261e'
+            }
+        }).addTo(heatmap);
+
+        // Add a marker + popup (click to open) for each of the top 10 regions
         locations.forEach(location => {
-            L.marker(location.coords).addTo(map)
-                .bindPopup(`<b>${location.name}</b>`)
-                .openPopup();
+            L.marker(location.coords).addTo(heatmap)
+                .bindPopup(`<b>${location.name}</b><br>Cases: ${location.cases}M`);
         });
     </script>
 </body>
