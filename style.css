@@ -27,12 +27,17 @@
    
    * { box-sizing: border-box; margin: 0; padding: 0; }
    
+   html {
+     overflow-x: hidden;
+   }
+   
    body {
      background: var(--bg);
      color: var(--text);
      font-family: var(--font-body);
      line-height: 1.6;
      -webkit-font-smoothing: antialiased;
+     overflow-x: hidden;
    }
    
    /* --- Nav (vertical sidebar) --- */
@@ -76,14 +81,18 @@
    
    /* --- Header / hero --- */
    header {
-     width: 100%;
-     padding: 3.5rem 2.5rem 2.5rem;
+     position: sticky;
+     top: 0;
+     z-index: 5;
+     padding: 2rem 2.5rem;
+     background: rgba(236, 238, 241, 0.92);
+     backdrop-filter: blur(8px);
    }
    
    header h1 {
      font-family: var(--font-display);
      font-weight: 800;
-     font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+     font-size: clamp(1.75rem, 4vw, 2.75rem);
      letter-spacing: -0.02em;
      color: var(--accent);
      text-shadow:
@@ -96,14 +105,13 @@
    }
    
    header p {
-     margin-top: 0.75rem;
-     font-size: 1.1rem;
+     margin-top: 0.5rem;
+     font-size: 1rem;
      color: var(--text-muted);
    }
    
    /* --- Sections --- */
    main {
-     width: 100%;
      padding: 0 2.5rem 4rem;
    }
    
@@ -205,8 +213,12 @@
    
    /* --- Map --- */
    #heatmap {
+     position: relative;
+     isolation: isolate; /* keeps Leaflet's internal z-indexes (controls, popups) contained
+                             so they never render above the nav sidebar or sticky header */
      height: 420px;
      width: 100%;
+     overflow: hidden;
      border-radius: var(--radius);
      margin: 1.5rem 0 2.5rem;
      box-shadow: var(--shadow-md);
